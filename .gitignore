@@ -1,0 +1,21 @@
+# credentials / local config
+.env
+.env.*
+!.env.example
+
+# test output (keep the folder)
+results/*
+!results/.gitkeep
+
+# node / playwright
+node_modules/
+browser/test-results/
+browser/playwright-report/
+
+# python
+__pycache__/
+*.pyc
+.venv/
+
+# local tool binaries
+tools/

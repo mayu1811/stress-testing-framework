@@ -1,0 +1,1814 @@
+{
+  "description": "Synthetic test data for the local mock API. Replace with seeded staging test records.",
+  "customers": [
+    {
+      "id": "CUST-000001",
+      "searchTerm": "liam.kim.1"
+    },
+    {
+      "id": "CUST-000006",
+      "searchTerm": "ethan.allen.6"
+    },
+    {
+      "id": "CUST-000011",
+      "searchTerm": "mason.garcia.11"
+    },
+    {
+      "id": "CUST-000016",
+      "searchTerm": "isla.young.16"
+    },
+    {
+      "id": "CUST-000021",
+      "searchTerm": "priya.scott.21"
+    },
+    {
+      "id": "CUST-000026",
+      "searchTerm": "liam.kim.26"
+    },
+    {
+      "id": "CUST-000031",
+      "searchTerm": "liam.lopez.31"
+    },
+    {
+      "id": "CUST-000036",
+      "searchTerm": "emma.singh.36"
+    },
+    {
+      "id": "CUST-000041",
+      "searchTerm": "ruby.garcia.41"
+    },
+    {
+      "id": "CUST-000046",
+      "searchTerm": "ethan.allen.46"
+    },
+    {
+      "id": "CUST-000051",
+      "searchTerm": "diego.young.51"
+    },
+    {
+      "id": "CUST-000056",
+      "searchTerm": "noah.hill.56"
+    },
+    {
+      "id": "CUST-000061",
+      "searchTerm": "ruby.patel.61"
+    },
+    {
+      "id": "CUST-000066",
+      "searchTerm": "sam.chen.66"
+    },
+    {
+      "id": "CUST-000071",
+      "searchTerm": "mason.patel.71"
+    },
+    {
+      "id": "CUST-000076",
+      "searchTerm": "nora.johnson.76"
+    },
+    {
+      "id": "CUST-000081",
+      "searchTerm": "diego.davis.81"
+    },
+    {
+      "id": "CUST-000086",
+      "searchTerm": "noah.nguyen.86"
+    },
+    {
+      "id": "CUST-000091",
+      "searchTerm": "kai.scott.91"
+    },
+    {
+      "id": "CUST-000096",
+      "searchTerm": "ethan.scott.96"
+    },
+    {
+      "id": "CUST-000101",
+      "searchTerm": "diego.wright.101"
+    },
+    {
+      "id": "CUST-000106",
+      "searchTerm": "aria.walker.106"
+    },
+    {
+      "id": "CUST-000111",
+      "searchTerm": "diego.wright.111"
+    },
+    {
+      "id": "CUST-000116",
+      "searchTerm": "ruby.johnson.116"
+    },
+    {
+      "id": "CUST-000121",
+      "searchTerm": "ethan.lewis.121"
+    },
+    {
+      "id": "CUST-000126",
+      "searchTerm": "ethan.scott.126"
+    },
+    {
+      "id": "CUST-000131",
+      "searchTerm": "mia.brown.131"
+    },
+    {
+      "id": "CUST-000136",
+      "searchTerm": "emma.clark.136"
+    },
+    {
+      "id": "CUST-000141",
+      "searchTerm": "emma.wright.141"
+    },
+    {
+      "id": "CUST-000146",
+      "searchTerm": "omar.scott.146"
+    },
+    {
+      "id": "CUST-000151",
+      "searchTerm": "ava.walker.151"
+    },
+    {
+      "id": "CUST-000156",
+      "searchTerm": "lucas.brown.156"
+    },
+    {
+      "id": "CUST-000161",
+      "searchTerm": "lucas.kim.161"
+    },
+    {
+      "id": "CUST-000166",
+      "searchTerm": "zoe.smith.166"
+    },
+    {
+      "id": "CUST-000171",
+      "searchTerm": "mason.scott.171"
+    },
+    {
+      "id": "CUST-000176",
+      "searchTerm": "zoe.wright.176"
+    },
+    {
+      "id": "CUST-000181",
+      "searchTerm": "ethan.lopez.181"
+    },
+    {
+      "id": "CUST-000186",
+      "searchTerm": "aria.allen.186"
+    },
+    {
+      "id": "CUST-000191",
+      "searchTerm": "mia.scott.191"
+    },
+    {
+      "id": "CUST-000196",
+      "searchTerm": "liam.nguyen.196"
+    },
+    {
+      "id": "CUST-000201",
+      "searchTerm": "omar.brown.201"
+    },
+    {
+      "id": "CUST-000206",
+      "searchTerm": "isla.johnson.206"
+    },
+    {
+      "id": "CUST-000211",
+      "searchTerm": "diego.young.211"
+    },
+    {
+      "id": "CUST-000216",
+      "searchTerm": "ruby.walker.216"
+    },
+    {
+      "id": "CUST-000221",
+      "searchTerm": "mia.nguyen.221"
+    },
+    {
+      "id": "CUST-000226",
+      "searchTerm": "mia.brown.226"
+    },
+    {
+      "id": "CUST-000231",
+      "searchTerm": "liam.davis.231"
+    },
+    {
+      "id": "CUST-000236",
+      "searchTerm": "sam.smith.236"
+    },
+    {
+      "id": "CUST-000241",
+      "searchTerm": "liam.hill.241"
+    },
+    {
+      "id": "CUST-000246",
+      "searchTerm": "mason.walker.246"
+    },
+    {
+      "id": "CUST-000251",
+      "searchTerm": "isla.walker.251"
+    },
+    {
+      "id": "CUST-000256",
+      "searchTerm": "aria.lewis.256"
+    },
+    {
+      "id": "CUST-000261",
+      "searchTerm": "kai.walker.261"
+    },
+    {
+      "id": "CUST-000266",
+      "searchTerm": "omar.smith.266"
+    },
+    {
+      "id": "CUST-000271",
+      "searchTerm": "diego.allen.271"
+    },
+    {
+      "id": "CUST-000276",
+      "searchTerm": "diego.lewis.276"
+    },
+    {
+      "id": "CUST-000281",
+      "searchTerm": "kai.chen.281"
+    },
+    {
+      "id": "CUST-000286",
+      "searchTerm": "leo.davis.286"
+    },
+    {
+      "id": "CUST-000291",
+      "searchTerm": "liam.scott.291"
+    },
+    {
+      "id": "CUST-000296",
+      "searchTerm": "zoe.young.296"
+    },
+    {
+      "id": "CUST-000301",
+      "searchTerm": "mia.chen.301"
+    },
+    {
+      "id": "CUST-000306",
+      "searchTerm": "ethan.chen.306"
+    },
+    {
+      "id": "CUST-000311",
+      "searchTerm": "aria.clark.311"
+    },
+    {
+      "id": "CUST-000316",
+      "searchTerm": "ethan.young.316"
+    },
+    {
+      "id": "CUST-000321",
+      "searchTerm": "mason.singh.321"
+    },
+    {
+      "id": "CUST-000326",
+      "searchTerm": "aria.singh.326"
+    },
+    {
+      "id": "CUST-000331",
+      "searchTerm": "diego.garcia.331"
+    },
+    {
+      "id": "CUST-000336",
+      "searchTerm": "leo.johnson.336"
+    },
+    {
+      "id": "CUST-000341",
+      "searchTerm": "aria.wright.341"
+    },
+    {
+      "id": "CUST-000346",
+      "searchTerm": "mason.davis.346"
+    },
+    {
+      "id": "CUST-000351",
+      "searchTerm": "kai.singh.351"
+    },
+    {
+      "id": "CUST-000356",
+      "searchTerm": "kai.smith.356"
+    },
+    {
+      "id": "CUST-000361",
+      "searchTerm": "lucas.scott.361"
+    },
+    {
+      "id": "CUST-000366",
+      "searchTerm": "diego.allen.366"
+    },
+    {
+      "id": "CUST-000371",
+      "searchTerm": "emma.davis.371"
+    },
+    {
+      "id": "CUST-000376",
+      "searchTerm": "liam.allen.376"
+    },
+    {
+      "id": "CUST-000381",
+      "searchTerm": "ruby.lewis.381"
+    },
+    {
+      "id": "CUST-000386",
+      "searchTerm": "hana.patel.386"
+    },
+    {
+      "id": "CUST-000391",
+      "searchTerm": "nora.scott.391"
+    },
+    {
+      "id": "CUST-000396",
+      "searchTerm": "ava.chen.396"
+    },
+    {
+      "id": "CUST-000401",
+      "searchTerm": "aria.young.401"
+    },
+    {
+      "id": "CUST-000406",
+      "searchTerm": "ruby.davis.406"
+    },
+    {
+      "id": "CUST-000411",
+      "searchTerm": "kai.chen.411"
+    },
+    {
+      "id": "CUST-000416",
+      "searchTerm": "ruby.hill.416"
+    },
+    {
+      "id": "CUST-000421",
+      "searchTerm": "isla.walker.421"
+    },
+    {
+      "id": "CUST-000426",
+      "searchTerm": "ava.allen.426"
+    },
+    {
+      "id": "CUST-000431",
+      "searchTerm": "sam.lopez.431"
+    },
+    {
+      "id": "CUST-000436",
+      "searchTerm": "mia.brown.436"
+    },
+    {
+      "id": "CUST-000441",
+      "searchTerm": "mia.hill.441"
+    },
+    {
+      "id": "CUST-000446",
+      "searchTerm": "emma.young.446"
+    },
+    {
+      "id": "CUST-000451",
+      "searchTerm": "diego.scott.451"
+    },
+    {
+      "id": "CUST-000456",
+      "searchTerm": "noah.brown.456"
+    },
+    {
+      "id": "CUST-000461",
+      "searchTerm": "aria.davis.461"
+    },
+    {
+      "id": "CUST-000466",
+      "searchTerm": "omar.brown.466"
+    },
+    {
+      "id": "CUST-000471",
+      "searchTerm": "diego.scott.471"
+    },
+    {
+      "id": "CUST-000476",
+      "searchTerm": "zoe.garcia.476"
+    },
+    {
+      "id": "CUST-000481",
+      "searchTerm": "aria.allen.481"
+    },
+    {
+      "id": "CUST-000486",
+      "searchTerm": "aria.kim.486"
+    },
+    {
+      "id": "CUST-000491",
+      "searchTerm": "omar.johnson.491"
+    },
+    {
+      "id": "CUST-000496",
+      "searchTerm": "zoe.kim.496"
+    },
+    {
+      "id": "CUST-000501",
+      "searchTerm": "mia.garcia.501"
+    },
+    {
+      "id": "CUST-000506",
+      "searchTerm": "emma.patel.506"
+    },
+    {
+      "id": "CUST-000511",
+      "searchTerm": "priya.garcia.511"
+    },
+    {
+      "id": "CUST-000516",
+      "searchTerm": "liam.patel.516"
+    },
+    {
+      "id": "CUST-000521",
+      "searchTerm": "mason.wright.521"
+    },
+    {
+      "id": "CUST-000526",
+      "searchTerm": "sam.hill.526"
+    },
+    {
+      "id": "CUST-000531",
+      "searchTerm": "aria.chen.531"
+    },
+    {
+      "id": "CUST-000536",
+      "searchTerm": "diego.smith.536"
+    },
+    {
+      "id": "CUST-000541",
+      "searchTerm": "kai.allen.541"
+    },
+    {
+      "id": "CUST-000546",
+      "searchTerm": "nora.scott.546"
+    },
+    {
+      "id": "CUST-000551",
+      "searchTerm": "sam.brown.551"
+    },
+    {
+      "id": "CUST-000556",
+      "searchTerm": "leo.patel.556"
+    },
+    {
+      "id": "CUST-000561",
+      "searchTerm": "lucas.lewis.561"
+    },
+    {
+      "id": "CUST-000566",
+      "searchTerm": "omar.hill.566"
+    },
+    {
+      "id": "CUST-000571",
+      "searchTerm": "lucas.lewis.571"
+    },
+    {
+      "id": "CUST-000576",
+      "searchTerm": "hana.hill.576"
+    },
+    {
+      "id": "CUST-000581",
+      "searchTerm": "zoe.brown.581"
+    },
+    {
+      "id": "CUST-000586",
+      "searchTerm": "nora.lewis.586"
+    },
+    {
+      "id": "CUST-000591",
+      "searchTerm": "mason.brown.591"
+    },
+    {
+      "id": "CUST-000596",
+      "searchTerm": "aria.allen.596"
+    },
+    {
+      "id": "CUST-000601",
+      "searchTerm": "sam.lewis.601"
+    },
+    {
+      "id": "CUST-000606",
+      "searchTerm": "ethan.brown.606"
+    },
+    {
+      "id": "CUST-000611",
+      "searchTerm": "ruby.kim.611"
+    },
+    {
+      "id": "CUST-000616",
+      "searchTerm": "isla.young.616"
+    },
+    {
+      "id": "CUST-000621",
+      "searchTerm": "mason.kim.621"
+    },
+    {
+      "id": "CUST-000626",
+      "searchTerm": "mason.davis.626"
+    },
+    {
+      "id": "CUST-000631",
+      "searchTerm": "zoe.scott.631"
+    },
+    {
+      "id": "CUST-000636",
+      "searchTerm": "lucas.singh.636"
+    },
+    {
+      "id": "CUST-000641",
+      "searchTerm": "lucas.patel.641"
+    },
+    {
+      "id": "CUST-000646",
+      "searchTerm": "mia.martin.646"
+    },
+    {
+      "id": "CUST-000651",
+      "searchTerm": "isla.hill.651"
+    },
+    {
+      "id": "CUST-000656",
+      "searchTerm": "nora.garcia.656"
+    },
+    {
+      "id": "CUST-000661",
+      "searchTerm": "kai.scott.661"
+    },
+    {
+      "id": "CUST-000666",
+      "searchTerm": "liam.chen.666"
+    },
+    {
+      "id": "CUST-000671",
+      "searchTerm": "ruby.wright.671"
+    },
+    {
+      "id": "CUST-000676",
+      "searchTerm": "mason.kim.676"
+    },
+    {
+      "id": "CUST-000681",
+      "searchTerm": "liam.young.681"
+    },
+    {
+      "id": "CUST-000686",
+      "searchTerm": "aria.garcia.686"
+    },
+    {
+      "id": "CUST-000691",
+      "searchTerm": "nora.lewis.691"
+    },
+    {
+      "id": "CUST-000696",
+      "searchTerm": "liam.lewis.696"
+    },
+    {
+      "id": "CUST-000701",
+      "searchTerm": "omar.martin.701"
+    },
+    {
+      "id": "CUST-000706",
+      "searchTerm": "sam.wright.706"
+    },
+    {
+      "id": "CUST-000711",
+      "searchTerm": "ava.nguyen.711"
+    },
+    {
+      "id": "CUST-000716",
+      "searchTerm": "zoe.garcia.716"
+    },
+    {
+      "id": "CUST-000721",
+      "searchTerm": "priya.hill.721"
+    },
+    {
+      "id": "CUST-000726",
+      "searchTerm": "isla.young.726"
+    },
+    {
+      "id": "CUST-000731",
+      "searchTerm": "sam.clark.731"
+    },
+    {
+      "id": "CUST-000736",
+      "searchTerm": "mia.kim.736"
+    },
+    {
+      "id": "CUST-000741",
+      "searchTerm": "diego.smith.741"
+    },
+    {
+      "id": "CUST-000746",
+      "searchTerm": "aria.clark.746"
+    },
+    {
+      "id": "CUST-000751",
+      "searchTerm": "diego.lopez.751"
+    },
+    {
+      "id": "CUST-000756",
+      "searchTerm": "nora.kim.756"
+    },
+    {
+      "id": "CUST-000761",
+      "searchTerm": "ruby.clark.761"
+    },
+    {
+      "id": "CUST-000766",
+      "searchTerm": "isla.chen.766"
+    },
+    {
+      "id": "CUST-000771",
+      "searchTerm": "aria.garcia.771"
+    },
+    {
+      "id": "CUST-000776",
+      "searchTerm": "noah.young.776"
+    },
+    {
+      "id": "CUST-000781",
+      "searchTerm": "diego.clark.781"
+    },
+    {
+      "id": "CUST-000786",
+      "searchTerm": "aria.chen.786"
+    },
+    {
+      "id": "CUST-000791",
+      "searchTerm": "lucas.chen.791"
+    },
+    {
+      "id": "CUST-000796",
+      "searchTerm": "ava.hill.796"
+    },
+    {
+      "id": "CUST-000801",
+      "searchTerm": "isla.scott.801"
+    },
+    {
+      "id": "CUST-000806",
+      "searchTerm": "nora.johnson.806"
+    },
+    {
+      "id": "CUST-000811",
+      "searchTerm": "kai.scott.811"
+    },
+    {
+      "id": "CUST-000816",
+      "searchTerm": "ruby.lopez.816"
+    },
+    {
+      "id": "CUST-000821",
+      "searchTerm": "nora.allen.821"
+    },
+    {
+      "id": "CUST-000826",
+      "searchTerm": "liam.walker.826"
+    },
+    {
+      "id": "CUST-000831",
+      "searchTerm": "ruby.lewis.831"
+    },
+    {
+      "id": "CUST-000836",
+      "searchTerm": "hana.allen.836"
+    },
+    {
+      "id": "CUST-000841",
+      "searchTerm": "mason.kim.841"
+    },
+    {
+      "id": "CUST-000846",
+      "searchTerm": "sam.garcia.846"
+    },
+    {
+      "id": "CUST-000851",
+      "searchTerm": "liam.walker.851"
+    },
+    {
+      "id": "CUST-000856",
+      "searchTerm": "noah.hill.856"
+    },
+    {
+      "id": "CUST-000861",
+      "searchTerm": "lucas.clark.861"
+    },
+    {
+      "id": "CUST-000866",
+      "searchTerm": "nora.scott.866"
+    },
+    {
+      "id": "CUST-000871",
+      "searchTerm": "isla.patel.871"
+    },
+    {
+      "id": "CUST-000876",
+      "searchTerm": "noah.johnson.876"
+    },
+    {
+      "id": "CUST-000881",
+      "searchTerm": "mason.johnson.881"
+    },
+    {
+      "id": "CUST-000886",
+      "searchTerm": "nora.hill.886"
+    },
+    {
+      "id": "CUST-000891",
+      "searchTerm": "noah.lopez.891"
+    },
+    {
+      "id": "CUST-000896",
+      "searchTerm": "ruby.lopez.896"
+    },
+    {
+      "id": "CUST-000901",
+      "searchTerm": "noah.chen.901"
+    },
+    {
+      "id": "CUST-000906",
+      "searchTerm": "sam.wright.906"
+    },
+    {
+      "id": "CUST-000911",
+      "searchTerm": "kai.kim.911"
+    },
+    {
+      "id": "CUST-000916",
+      "searchTerm": "ruby.young.916"
+    },
+    {
+      "id": "CUST-000921",
+      "searchTerm": "isla.brown.921"
+    },
+    {
+      "id": "CUST-000926",
+      "searchTerm": "ethan.patel.926"
+    },
+    {
+      "id": "CUST-000931",
+      "searchTerm": "liam.wright.931"
+    },
+    {
+      "id": "CUST-000936",
+      "searchTerm": "leo.garcia.936"
+    },
+    {
+      "id": "CUST-000941",
+      "searchTerm": "mia.singh.941"
+    },
+    {
+      "id": "CUST-000946",
+      "searchTerm": "kai.clark.946"
+    },
+    {
+      "id": "CUST-000951",
+      "searchTerm": "diego.smith.951"
+    },
+    {
+      "id": "CUST-000956",
+      "searchTerm": "kai.kim.956"
+    },
+    {
+      "id": "CUST-000961",
+      "searchTerm": "omar.lewis.961"
+    },
+    {
+      "id": "CUST-000966",
+      "searchTerm": "ruby.allen.966"
+    },
+    {
+      "id": "CUST-000971",
+      "searchTerm": "diego.singh.971"
+    },
+    {
+      "id": "CUST-000976",
+      "searchTerm": "mason.johnson.976"
+    },
+    {
+      "id": "CUST-000981",
+      "searchTerm": "mia.hill.981"
+    },
+    {
+      "id": "CUST-000986",
+      "searchTerm": "leo.davis.986"
+    },
+    {
+      "id": "CUST-000991",
+      "searchTerm": "omar.chen.991"
+    },
+    {
+      "id": "CUST-000996",
+      "searchTerm": "mia.johnson.996"
+    }
+  ],
+  "products": [
+    {
+      "sku": "SKU-100001",
+      "category": "apparel"
+    },
+    {
+      "sku": "SKU-100004",
+      "category": "home"
+    },
+    {
+      "sku": "SKU-100007",
+      "category": "toys"
+    },
+    {
+      "sku": "SKU-100010",
+      "category": "footwear"
+    },
+    {
+      "sku": "SKU-100013",
+      "category": "grocery"
+    },
+    {
+      "sku": "SKU-100016",
+      "category": "outdoor"
+    },
+    {
+      "sku": "SKU-100019",
+      "category": "electronics"
+    },
+    {
+      "sku": "SKU-100022",
+      "category": "beauty"
+    },
+    {
+      "sku": "SKU-100025",
+      "category": "apparel"
+    },
+    {
+      "sku": "SKU-100028",
+      "category": "home"
+    },
+    {
+      "sku": "SKU-100031",
+      "category": "toys"
+    },
+    {
+      "sku": "SKU-100034",
+      "category": "footwear"
+    },
+    {
+      "sku": "SKU-100037",
+      "category": "grocery"
+    },
+    {
+      "sku": "SKU-100040",
+      "category": "outdoor"
+    },
+    {
+      "sku": "SKU-100043",
+      "category": "electronics"
+    },
+    {
+      "sku": "SKU-100046",
+      "category": "beauty"
+    },
+    {
+      "sku": "SKU-100049",
+      "category": "apparel"
+    },
+    {
+      "sku": "SKU-100052",
+      "category": "home"
+    },
+    {
+      "sku": "SKU-100055",
+      "category": "toys"
+    },
+    {
+      "sku": "SKU-100058",
+      "category": "footwear"
+    },
+    {
+      "sku": "SKU-100061",
+      "category": "grocery"
+    },
+    {
+      "sku": "SKU-100064",
+      "category": "outdoor"
+    },
+    {
+      "sku": "SKU-100067",
+      "category": "electronics"
+    },
+    {
+      "sku": "SKU-100070",
+      "category": "beauty"
+    },
+    {
+      "sku": "SKU-100073",
+      "category": "apparel"
+    },
+    {
+      "sku": "SKU-100076",
+      "category": "home"
+    },
+    {
+      "sku": "SKU-100079",
+      "category": "toys"
+    },
+    {
+      "sku": "SKU-100082",
+      "category": "footwear"
+    },
+    {
+      "sku": "SKU-100085",
+      "category": "grocery"
+    },
+    {
+      "sku": "SKU-100088",
+      "category": "outdoor"
+    },
+    {
+      "sku": "SKU-100091",
+      "category": "electronics"
+    },
+    {
+      "sku": "SKU-100094",
+      "category": "beauty"
+    },
+    {
+      "sku": "SKU-100097",
+      "category": "apparel"
+    },
+    {
+      "sku": "SKU-100100",
+      "category": "home"
+    },
+    {
+      "sku": "SKU-100103",
+      "category": "toys"
+    },
+    {
+      "sku": "SKU-100106",
+      "category": "footwear"
+    },
+    {
+      "sku": "SKU-100109",
+      "category": "grocery"
+    },
+    {
+      "sku": "SKU-100112",
+      "category": "outdoor"
+    },
+    {
+      "sku": "SKU-100115",
+      "category": "electronics"
+    },
+    {
+      "sku": "SKU-100118",
+      "category": "beauty"
+    },
+    {
+      "sku": "SKU-100121",
+      "category": "apparel"
+    },
+    {
+      "sku": "SKU-100124",
+      "category": "home"
+    },
+    {
+      "sku": "SKU-100127",
+      "category": "toys"
+    },
+    {
+      "sku": "SKU-100130",
+      "category": "footwear"
+    },
+    {
+      "sku": "SKU-100133",
+      "category": "grocery"
+    },
+    {
+      "sku": "SKU-100136",
+      "category": "outdoor"
+    },
+    {
+      "sku": "SKU-100139",
+      "category": "electronics"
+    },
+    {
+      "sku": "SKU-100142",
+      "category": "beauty"
+    },
+    {
+      "sku": "SKU-100145",
+      "category": "apparel"
+    },
+    {
+      "sku": "SKU-100148",
+      "category": "home"
+    },
+    {
+      "sku": "SKU-100151",
+      "category": "toys"
+    },
+    {
+      "sku": "SKU-100154",
+      "category": "footwear"
+    },
+    {
+      "sku": "SKU-100157",
+      "category": "grocery"
+    },
+    {
+      "sku": "SKU-100160",
+      "category": "outdoor"
+    },
+    {
+      "sku": "SKU-100163",
+      "category": "electronics"
+    },
+    {
+      "sku": "SKU-100166",
+      "category": "beauty"
+    },
+    {
+      "sku": "SKU-100169",
+      "category": "apparel"
+    },
+    {
+      "sku": "SKU-100172",
+      "category": "home"
+    },
+    {
+      "sku": "SKU-100175",
+      "category": "toys"
+    },
+    {
+      "sku": "SKU-100178",
+      "category": "footwear"
+    },
+    {
+      "sku": "SKU-100181",
+      "category": "grocery"
+    },
+    {
+      "sku": "SKU-100184",
+      "category": "outdoor"
+    },
+    {
+      "sku": "SKU-100187",
+      "category": "electronics"
+    },
+    {
+      "sku": "SKU-100190",
+      "category": "beauty"
+    },
+    {
+      "sku": "SKU-100193",
+      "category": "apparel"
+    },
+    {
+      "sku": "SKU-100196",
+      "category": "home"
+    },
+    {
+      "sku": "SKU-100199",
+      "category": "toys"
+    },
+    {
+      "sku": "SKU-100202",
+      "category": "footwear"
+    },
+    {
+      "sku": "SKU-100205",
+      "category": "grocery"
+    },
+    {
+      "sku": "SKU-100208",
+      "category": "outdoor"
+    },
+    {
+      "sku": "SKU-100211",
+      "category": "electronics"
+    },
+    {
+      "sku": "SKU-100214",
+      "category": "beauty"
+    },
+    {
+      "sku": "SKU-100217",
+      "category": "apparel"
+    },
+    {
+      "sku": "SKU-100220",
+      "category": "home"
+    },
+    {
+      "sku": "SKU-100223",
+      "category": "toys"
+    },
+    {
+      "sku": "SKU-100226",
+      "category": "footwear"
+    },
+    {
+      "sku": "SKU-100229",
+      "category": "grocery"
+    },
+    {
+      "sku": "SKU-100232",
+      "category": "outdoor"
+    },
+    {
+      "sku": "SKU-100235",
+      "category": "electronics"
+    },
+    {
+      "sku": "SKU-100238",
+      "category": "beauty"
+    },
+    {
+      "sku": "SKU-100241",
+      "category": "apparel"
+    },
+    {
+      "sku": "SKU-100244",
+      "category": "home"
+    },
+    {
+      "sku": "SKU-100247",
+      "category": "toys"
+    },
+    {
+      "sku": "SKU-100250",
+      "category": "footwear"
+    },
+    {
+      "sku": "SKU-100253",
+      "category": "grocery"
+    },
+    {
+      "sku": "SKU-100256",
+      "category": "outdoor"
+    },
+    {
+      "sku": "SKU-100259",
+      "category": "electronics"
+    },
+    {
+      "sku": "SKU-100262",
+      "category": "beauty"
+    },
+    {
+      "sku": "SKU-100265",
+      "category": "apparel"
+    },
+    {
+      "sku": "SKU-100268",
+      "category": "home"
+    },
+    {
+      "sku": "SKU-100271",
+      "category": "toys"
+    },
+    {
+      "sku": "SKU-100274",
+      "category": "footwear"
+    },
+    {
+      "sku": "SKU-100277",
+      "category": "grocery"
+    },
+    {
+      "sku": "SKU-100280",
+      "category": "outdoor"
+    },
+    {
+      "sku": "SKU-100283",
+      "category": "electronics"
+    },
+    {
+      "sku": "SKU-100286",
+      "category": "beauty"
+    },
+    {
+      "sku": "SKU-100289",
+      "category": "apparel"
+    },
+    {
+      "sku": "SKU-100292",
+      "category": "home"
+    },
+    {
+      "sku": "SKU-100295",
+      "category": "toys"
+    },
+    {
+      "sku": "SKU-100298",
+      "category": "footwear"
+    },
+    {
+      "sku": "SKU-100301",
+      "category": "grocery"
+    },
+    {
+      "sku": "SKU-100304",
+      "category": "outdoor"
+    },
+    {
+      "sku": "SKU-100307",
+      "category": "electronics"
+    },
+    {
+      "sku": "SKU-100310",
+      "category": "beauty"
+    },
+    {
+      "sku": "SKU-100313",
+      "category": "apparel"
+    },
+    {
+      "sku": "SKU-100316",
+      "category": "home"
+    },
+    {
+      "sku": "SKU-100319",
+      "category": "toys"
+    },
+    {
+      "sku": "SKU-100322",
+      "category": "footwear"
+    },
+    {
+      "sku": "SKU-100325",
+      "category": "grocery"
+    },
+    {
+      "sku": "SKU-100328",
+      "category": "outdoor"
+    },
+    {
+      "sku": "SKU-100331",
+      "category": "electronics"
+    },
+    {
+      "sku": "SKU-100334",
+      "category": "beauty"
+    },
+    {
+      "sku": "SKU-100337",
+      "category": "apparel"
+    },
+    {
+      "sku": "SKU-100340",
+      "category": "home"
+    },
+    {
+      "sku": "SKU-100343",
+      "category": "toys"
+    },
+    {
+      "sku": "SKU-100346",
+      "category": "footwear"
+    },
+    {
+      "sku": "SKU-100349",
+      "category": "grocery"
+    },
+    {
+      "sku": "SKU-100352",
+      "category": "outdoor"
+    },
+    {
+      "sku": "SKU-100355",
+      "category": "electronics"
+    },
+    {
+      "sku": "SKU-100358",
+      "category": "beauty"
+    },
+    {
+      "sku": "SKU-100361",
+      "category": "apparel"
+    },
+    {
+      "sku": "SKU-100364",
+      "category": "home"
+    },
+    {
+      "sku": "SKU-100367",
+      "category": "toys"
+    },
+    {
+      "sku": "SKU-100370",
+      "category": "footwear"
+    },
+    {
+      "sku": "SKU-100373",
+      "category": "grocery"
+    },
+    {
+      "sku": "SKU-100376",
+      "category": "outdoor"
+    },
+    {
+      "sku": "SKU-100379",
+      "category": "electronics"
+    },
+    {
+      "sku": "SKU-100382",
+      "category": "beauty"
+    },
+    {
+      "sku": "SKU-100385",
+      "category": "apparel"
+    },
+    {
+      "sku": "SKU-100388",
+      "category": "home"
+    },
+    {
+      "sku": "SKU-100391",
+      "category": "toys"
+    },
+    {
+      "sku": "SKU-100394",
+      "category": "footwear"
+    },
+    {
+      "sku": "SKU-100397",
+      "category": "grocery"
+    },
+    {
+      "sku": "SKU-100400",
+      "category": "outdoor"
+    },
+    {
+      "sku": "SKU-100403",
+      "category": "electronics"
+    },
+    {
+      "sku": "SKU-100406",
+      "category": "beauty"
+    },
+    {
+      "sku": "SKU-100409",
+      "category": "apparel"
+    },
+    {
+      "sku": "SKU-100412",
+      "category": "home"
+    },
+    {
+      "sku": "SKU-100415",
+      "category": "toys"
+    },
+    {
+      "sku": "SKU-100418",
+      "category": "footwear"
+    },
+    {
+      "sku": "SKU-100421",
+      "category": "grocery"
+    },
+    {
+      "sku": "SKU-100424",
+      "category": "outdoor"
+    },
+    {
+      "sku": "SKU-100427",
+      "category": "electronics"
+    },
+    {
+      "sku": "SKU-100430",
+      "category": "beauty"
+    },
+    {
+      "sku": "SKU-100433",
+      "category": "apparel"
+    },
+    {
+      "sku": "SKU-100436",
+      "category": "home"
+    },
+    {
+      "sku": "SKU-100439",
+      "category": "toys"
+    },
+    {
+      "sku": "SKU-100442",
+      "category": "footwear"
+    },
+    {
+      "sku": "SKU-100445",
+      "category": "grocery"
+    },
+    {
+      "sku": "SKU-100448",
+      "category": "outdoor"
+    },
+    {
+      "sku": "SKU-100451",
+      "category": "electronics"
+    },
+    {
+      "sku": "SKU-100454",
+      "category": "beauty"
+    },
+    {
+      "sku": "SKU-100457",
+      "category": "apparel"
+    },
+    {
+      "sku": "SKU-100460",
+      "category": "home"
+    },
+    {
+      "sku": "SKU-100463",
+      "category": "toys"
+    },
+    {
+      "sku": "SKU-100466",
+      "category": "footwear"
+    },
+    {
+      "sku": "SKU-100469",
+      "category": "grocery"
+    },
+    {
+      "sku": "SKU-100472",
+      "category": "outdoor"
+    },
+    {
+      "sku": "SKU-100475",
+      "category": "electronics"
+    },
+    {
+      "sku": "SKU-100478",
+      "category": "beauty"
+    },
+    {
+      "sku": "SKU-100481",
+      "category": "apparel"
+    },
+    {
+      "sku": "SKU-100484",
+      "category": "home"
+    },
+    {
+      "sku": "SKU-100487",
+      "category": "toys"
+    },
+    {
+      "sku": "SKU-100490",
+      "category": "footwear"
+    },
+    {
+      "sku": "SKU-100493",
+      "category": "grocery"
+    },
+    {
+      "sku": "SKU-100496",
+      "category": "outdoor"
+    },
+    {
+      "sku": "SKU-100499",
+      "category": "electronics"
+    }
+  ],
+  "stores": [
+    "STR-001",
+    "STR-002",
+    "STR-003",
+    "STR-004",
+    "STR-005",
+    "STR-006",
+    "STR-007",
+    "STR-008",
+    "STR-009",
+    "STR-010",
+    "STR-011",
+    "STR-012",
+    "STR-013",
+    "STR-014",
+    "STR-015",
+    "STR-016",
+    "STR-017",
+    "STR-018",
+    "STR-019",
+    "STR-020",
+    "STR-021",
+    "STR-022",
+    "STR-023",
+    "STR-024",
+    "STR-025"
+  ],
+  "orders": [
+    "ORD-700001",
+    "ORD-700011",
+    "ORD-700021",
+    "ORD-700031",
+    "ORD-700041",
+    "ORD-700051",
+    "ORD-700061",
+    "ORD-700071",
+    "ORD-700081",
+    "ORD-700091",
+    "ORD-700101",
+    "ORD-700111",
+    "ORD-700121",
+    "ORD-700131",
+    "ORD-700141",
+    "ORD-700151",
+    "ORD-700161",
+    "ORD-700171",
+    "ORD-700181",
+    "ORD-700191",
+    "ORD-700201",
+    "ORD-700211",
+    "ORD-700221",
+    "ORD-700231",
+    "ORD-700241",
+    "ORD-700251",
+    "ORD-700261",
+    "ORD-700271",
+    "ORD-700281",
+    "ORD-700291",
+    "ORD-700301",
+    "ORD-700311",
+    "ORD-700321",
+    "ORD-700331",
+    "ORD-700341",
+    "ORD-700351",
+    "ORD-700361",
+    "ORD-700371",
+    "ORD-700381",
+    "ORD-700391",
+    "ORD-700401",
+    "ORD-700411",
+    "ORD-700421",
+    "ORD-700431",
+    "ORD-700441",
+    "ORD-700451",
+    "ORD-700461",
+    "ORD-700471",
+    "ORD-700481",
+    "ORD-700491",
+    "ORD-700501",
+    "ORD-700511",
+    "ORD-700521",
+    "ORD-700531",
+    "ORD-700541",
+    "ORD-700551",
+    "ORD-700561",
+    "ORD-700571",
+    "ORD-700581",
+    "ORD-700591",
+    "ORD-700601",
+    "ORD-700611",
+    "ORD-700621",
+    "ORD-700631",
+    "ORD-700641",
+    "ORD-700651",
+    "ORD-700661",
+    "ORD-700671",
+    "ORD-700681",
+    "ORD-700691",
+    "ORD-700701",
+    "ORD-700711",
+    "ORD-700721",
+    "ORD-700731",
+    "ORD-700741",
+    "ORD-700751",
+    "ORD-700761",
+    "ORD-700771",
+    "ORD-700781",
+    "ORD-700791",
+    "ORD-700801",
+    "ORD-700811",
+    "ORD-700821",
+    "ORD-700831",
+    "ORD-700841",
+    "ORD-700851",
+    "ORD-700861",
+    "ORD-700871",
+    "ORD-700881",
+    "ORD-700891",
+    "ORD-700901",
+    "ORD-700911",
+    "ORD-700921",
+    "ORD-700931",
+    "ORD-700941",
+    "ORD-700951",
+    "ORD-700961",
+    "ORD-700971",
+    "ORD-700981",
+    "ORD-700991",
+    "ORD-701001",
+    "ORD-701011",
+    "ORD-701021",
+    "ORD-701031",
+    "ORD-701041",
+    "ORD-701051",
+    "ORD-701061",
+    "ORD-701071",
+    "ORD-701081",
+    "ORD-701091",
+    "ORD-701101",
+    "ORD-701111",
+    "ORD-701121",
+    "ORD-701131",
+    "ORD-701141",
+    "ORD-701151",
+    "ORD-701161",
+    "ORD-701171",
+    "ORD-701181",
+    "ORD-701191",
+    "ORD-701201",
+    "ORD-701211",
+    "ORD-701221",
+    "ORD-701231",
+    "ORD-701241",
+    "ORD-701251",
+    "ORD-701261",
+    "ORD-701271",
+    "ORD-701281",
+    "ORD-701291",
+    "ORD-701301",
+    "ORD-701311",
+    "ORD-701321",
+    "ORD-701331",
+    "ORD-701341",
+    "ORD-701351",
+    "ORD-701361",
+    "ORD-701371",
+    "ORD-701381",
+    "ORD-701391",
+    "ORD-701401",
+    "ORD-701411",
+    "ORD-701421",
+    "ORD-701431",
+    "ORD-701441",
+    "ORD-701451",
+    "ORD-701461",
+    "ORD-701471",
+    "ORD-701481",
+    "ORD-701491",
+    "ORD-701501",
+    "ORD-701511",
+    "ORD-701521",
+    "ORD-701531",
+    "ORD-701541",
+    "ORD-701551",
+    "ORD-701561",
+    "ORD-701571",
+    "ORD-701581",
+    "ORD-701591",
+    "ORD-701601",
+    "ORD-701611",
+    "ORD-701621",
+    "ORD-701631",
+    "ORD-701641",
+    "ORD-701651",
+    "ORD-701661",
+    "ORD-701671",
+    "ORD-701681",
+    "ORD-701691",
+    "ORD-701701",
+    "ORD-701711",
+    "ORD-701721",
+    "ORD-701731",
+    "ORD-701741",
+    "ORD-701751",
+    "ORD-701761",
+    "ORD-701771",
+    "ORD-701781",
+    "ORD-701791",
+    "ORD-701801",
+    "ORD-701811",
+    "ORD-701821",
+    "ORD-701831",
+    "ORD-701841",
+    "ORD-701851",
+    "ORD-701861",
+    "ORD-701871",
+    "ORD-701881",
+    "ORD-701891",
+    "ORD-701901",
+    "ORD-701911",
+    "ORD-701921",
+    "ORD-701931",
+    "ORD-701941",
+    "ORD-701951",
+    "ORD-701961",
+    "ORD-701971",
+    "ORD-701981",
+    "ORD-701991",
+    "ORD-702001",
+    "ORD-702011",
+    "ORD-702021",
+    "ORD-702031",
+    "ORD-702041",
+    "ORD-702051",
+    "ORD-702061",
+    "ORD-702071",
+    "ORD-702081",
+    "ORD-702091",
+    "ORD-702101",
+    "ORD-702111",
+    "ORD-702121",
+    "ORD-702131",
+    "ORD-702141",
+    "ORD-702151",
+    "ORD-702161",
+    "ORD-702171",
+    "ORD-702181",
+    "ORD-702191",
+    "ORD-702201",
+    "ORD-702211",
+    "ORD-702221",
+    "ORD-702231",
+    "ORD-702241",
+    "ORD-702251",
+    "ORD-702261",
+    "ORD-702271",
+    "ORD-702281",
+    "ORD-702291",
+    "ORD-702301",
+    "ORD-702311",
+    "ORD-702321",
+    "ORD-702331",
+    "ORD-702341",
+    "ORD-702351",
+    "ORD-702361",
+    "ORD-702371",
+    "ORD-702381",
+    "ORD-702391",
+    "ORD-702401",
+    "ORD-702411",
+    "ORD-702421",
+    "ORD-702431",
+    "ORD-702441",
+    "ORD-702451",
+    "ORD-702461",
+    "ORD-702471",
+    "ORD-702481",
+    "ORD-702491",
+    "ORD-702501",
+    "ORD-702511",
+    "ORD-702521",
+    "ORD-702531",
+    "ORD-702541",
+    "ORD-702551",
+    "ORD-702561",
+    "ORD-702571",
+    "ORD-702581",
+    "ORD-702591",
+    "ORD-702601",
+    "ORD-702611",
+    "ORD-702621",
+    "ORD-702631",
+    "ORD-702641",
+    "ORD-702651",
+    "ORD-702661",
+    "ORD-702671",
+    "ORD-702681",
+    "ORD-702691",
+    "ORD-702701",
+    "ORD-702711",
+    "ORD-702721",
+    "ORD-702731",
+    "ORD-702741",
+    "ORD-702751",
+    "ORD-702761",
+    "ORD-702771",
+    "ORD-702781",
+    "ORD-702791",
+    "ORD-702801",
+    "ORD-702811",
+    "ORD-702821",
+    "ORD-702831",
+    "ORD-702841",
+    "ORD-702851",
+    "ORD-702861",
+    "ORD-702871",
+    "ORD-702881",
+    "ORD-702891",
+    "ORD-702901",
+    "ORD-702911",
+    "ORD-702921",
+    "ORD-702931",
+    "ORD-702941",
+    "ORD-702951",
+    "ORD-702961",
+    "ORD-702971",
+    "ORD-702981",
+    "ORD-702991"
+  ],
+  "categories": [
+    "apparel",
+    "footwear",
+    "electronics",
+    "home",
+    "grocery",
+    "beauty",
+    "toys",
+    "outdoor"
+  ]
+}

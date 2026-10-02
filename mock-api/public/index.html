@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mock Omnichannel Store</title>
+  <style>
+    :root { --bg: #fcfcfb; --fg: #0b0b0b; --muted: #52514e; --line: #e2e1dc; --accent: #2a78d6; }
+    @media (prefers-color-scheme: dark) { :root { --bg: #1a1a19; --fg: #fff; --muted: #c3c2b7; --line: #3a3a37; --accent: #3987e5; } }
+    body { margin: 0; font: 15px/1.5 system-ui, sans-serif; background: var(--bg); color: var(--fg); }
+    main { max-width: 760px; margin: 0 auto; padding: 24px 16px; }
+    h1 { font-size: 22px; margin: 0 0 4px; } p.note { color: var(--muted); margin: 0 0 20px; }
+    section { border: 1px solid var(--line); border-radius: 8px; padding: 16px; margin-bottom: 16px; }
+    h2 { font-size: 16px; margin: 0 0 10px; }
+    input, select, button { font: inherit; padding: 6px 10px; border-radius: 6px; border: 1px solid var(--line); background: transparent; color: inherit; }
+    button { background: var(--accent); color: #fff; border: 0; cursor: pointer; }
+    .row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+    pre { white-space: pre-wrap; word-break: break-word; color: var(--muted); font-size: 13px; margin: 10px 0 0; }
+  </style>
+</head>
+<body>
+<main>
+  <h1>Mock Omnichannel Store</h1>
+  <p class="note">A tiny storefront over the mock API, used only by the optional Playwright journey test.</p>
+
+  <section>
+    <h2>1. Find customer</h2>
+    <div class="row"><input id="q" data-testid="customer-query" placeholder="email prefix or last name">
+      <button data-testid="customer-search" onclick="searchCustomer()">Search</button></div>
+    <pre data-testid="customer-result"></pre>
+  </section>
+
+  <section>
+    <h2>2. Browse catalog</h2>
+    <div class="row"><select id="category" data-testid="category">
+      <option>apparel</option><option>footwear</option><option>electronics</option><option>home</option>
+      <option>grocery</option><option>beauty</option><option>toys</option><option>outdoor</option></select>
+      <button data-testid="load-products" onclick="loadProducts()">Load products</button>
+      <select id="product" data-testid="product"></select></div>
+    <pre data-testid="product-result"></pre>
+  </section>
+
+  <section>
+    <h2>3. Check store inventory &amp; add to cart</h2>
+    <div class="row"><input id="store" data-testid="store" value="STR-001">
+      <button data-testid="check-inventory" onclick="checkInventory()">Check inventory</button>
+      <button data-testid="add-to-cart" onclick="addToCart()">Add to cart</button></div>
+    <pre data-testid="inventory-result"></pre>
+    <pre data-testid="cart-result"></pre>
+  </section>
+
+  <section>
+    <h2>4. Track order</h2>
+    <div class="row"><input id="order" data-testid="order-id" placeholder="ORD-700001">
+      <button data-testid="track-order" onclick="trackOrder()">Track</button></div>
+    <pre data-testid="tracking-result"></pre>
+  </section>
+</main>
+<script>
+  const state = { customer: null };
+  const $ = (id) => document.getElementById(id);
+  const show = (testid, obj) => { document.querySelector(`[data-testid="${testid}"]`).textContent = typeof obj === 'string' ? obj : JSON.stringify(obj, null, 2); };
+  async function api(path, opts) {
+    const res = await fetch(path, { headers: { 'Content-Type': 'application/json', 'X-Load-Test': 'true' }, ...opts });
+    const body = await res.json();
+    if (!res.ok) throw new Error(`${res.status}: ${body.message || body.error}`);
+    return body;
+  }
+  async function searchCustomer() {
+    try {
+      const r = await api(`/api/customers/search?q=${encodeURIComponent($('q').value)}`);
+      if (!r.count) return show('customer-result', 'No customer found');
+      state.customer = await api(`/api/customers/${r.results[0].id}`);
+      $('store').value = state.customer.preferredStoreId;
+      show('customer-result', `Customer: ${state.customer.firstName} ${state.customer.lastName} (${state.customer.id}) - ${state.customer.loyaltyTier}`);
+    } catch (e) { show('customer-result', 'Error ' + e.message); }
+  }
+  async function loadProducts() {
+    try {
+      const r = await api(`/api/products?category=${$('category').value}&limit=10`);
+      $('product').innerHTML = r.items.map((p) => `<option value="${p.sku}">${p.sku} - ${p.name} ($${p.price})</option>`).join('');
+      show('product-result', `${r.count} products loaded`);
+    } catch (e) { show('product-result', 'Error ' + e.message); }
+  }
+  async function checkInventory() {
+    try {
+      const r = await api(`/api/inventory/${$('product').value}?storeId=${$('store').value}`);
+      show('inventory-result', `Available at ${r.storeId}: ${r.available}`);
+    } catch (e) { show('inventory-result', 'Error ' + e.message); }
+  }
+  async function addToCart() {
+    try {
+      const r = await api('/api/carts', { method: 'POST', body: JSON.stringify({ customerId: state.customer && state.customer.id, sku: $('product').value, qty: 1, channel: 'web' }) });
+      show('cart-result', `Cart ${r.cartId} subtotal $${r.subtotal}`);
+    } catch (e) { show('cart-result', 'Error ' + e.message); }
+  }
+  async function trackOrder() {
+    try {
+      const r = await api(`/api/orders/${$('order').value}/tracking`);
+      show('tracking-result', `Order ${r.orderId}: ${r.status} (${r.events.length} events)`);
+    } catch (e) { show('tracking-result', 'Error ' + e.message); }
+  }
+</script>
+</body>
+</html>

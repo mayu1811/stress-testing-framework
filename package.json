@@ -1,0 +1,28 @@
+{
+  "name": "stress-testing-framework",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Incremental load / stress testing framework (k6) with a safe local mock omnichannel retail API",
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "mock": "node mock-api/server.js",
+    "test-data": "node mock-api/export-test-data.js",
+    "smoke": "node scripts/run-k6.js k6/smoke-test.js",
+    "load": "node scripts/run-k6.js k6/load-test.js",
+    "load:quick": "node scripts/run-k6.js k6/load-test.js -e LOAD_PROFILE=quick",
+    "load:knee": "node scripts/run-k6.js k6/load-test.js -e LOAD_PROFILE=knee -e RESULTS_DIR=results/knee",
+    "stress": "node scripts/run-k6.js k6/stress-test.js",
+    "report": "python scripts/generate-report.py",
+    "smoke:quickpizza": "node scripts/run-k6.js k6/smoke-test.js -e TARGET_PROFILE=quickpizza",
+    "load:quickpizza": "node scripts/run-k6.js k6/load-test.js -e TARGET_PROFILE=quickpizza -e CONFIRM_AUTHORIZED_TARGET=true",
+    "load:quickpizza:quick": "node scripts/run-k6.js k6/load-test.js -e TARGET_PROFILE=quickpizza -e CONFIRM_AUTHORIZED_TARGET=true -e LOAD_PROFILE=quick",
+    "report:quickpizza": "python scripts/generate-report.py --profile quickpizza",
+    "browser": "playwright test --config browser/playwright.config.js",
+    "browser:install": "playwright install chromium"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.55.0"
+  }
+}
