@@ -6,6 +6,9 @@
 //   retail-mock  local mock Omnichannel Retail API (default, high load is fine)
 //   quickpizza   Grafana's public QuickPizza demo API (load testing permitted;
 //                shared demo, so default load is modest)
+//   freshdesk    a real Freshdesk (trial) account: authenticated, READ-ONLY,
+//                low-volume API validation. NOT a capacity test (see
+//                scenarios/freshdesk.js and utils/safety.js for its limits)
 // A profile only supplies DEFAULTS; any explicit env var still wins.
 
 const env = (key, def) => (__ENV[key] !== undefined && __ENV[key] !== '' ? __ENV[key] : def);
@@ -35,6 +38,21 @@ const PROFILES = {
     kneeStages: '20:30s,30:30s,40:30s,50:30s',
     stressLevels: '25,50,75,100',
   },
+  freshdesk: {
+    // Domain comes ONLY from FRESHDESK_BASE_URL; auth ONLY from FRESHDESK_API_KEY.
+    // Generic TARGET_BASE_URL / API_TOKEN / AUTH_TYPE are ignored so a staging
+    // token can never be sent to Freshdesk (and vice versa).
+    baseUrlVar: 'FRESHDESK_BASE_URL',
+    authType: 'basic', // Authorization: Basic base64("<api key>:X")
+    tokenVar: 'FRESHDESK_API_KEY',
+    lockAuth: true,
+    readOnly: true, // the scenario has no write calls; ENABLE_WRITES is ignored
+    thinkTime: [3, 6],
+    stages: env('FRESHDESK_STAGES', '1:30s,5:30s,10:30s,20:30s'),
+    quickStages: '1:10s,5:10s',
+    kneeStages: env('FRESHDESK_STAGES', '1:30s,5:30s,10:30s,20:30s'),
+    stressLevels: '1', // stress tests are refused for this profile (utils/safety.js)
+  },
 };
 if (!PROFILES[PROFILE]) throw new Error(`Unknown TARGET_PROFILE "${PROFILE}". Use one of: ${Object.keys(PROFILES).join(', ')}`);
 const P = PROFILES[PROFILE];
@@ -43,19 +61,22 @@ const P = PROFILES[PROFILE];
 // Target API: swap TARGET_BASE_URL to point at an AUTHORIZED environment.
 // ---------------------------------------------------------------------------
 // Profile-specific token variable first (e.g. QUICKPIZZA_TOKEN), then API_TOKEN.
-const token = env(P.tokenVar, env('API_TOKEN', ''));
+// Profiles with lockAuth use ONLY their own variable.
+const token = P.lockAuth ? env(P.tokenVar, '') : env(P.tokenVar, env('API_TOKEN', ''));
 export const TARGET = {
   profile: PROFILE,
-  baseUrl: env('TARGET_BASE_URL', env('BASE_URL', P.baseUrl)).replace(/\/+$/, ''),
-  // none | bearer | apikey | token
-  authType: env('AUTH_TYPE', P.authType || (token ? 'bearer' : 'none')).toLowerCase(),
+  baseUrl: P.baseUrlVar ? apiOrigin(env(P.baseUrlVar, '')) : env('TARGET_BASE_URL', env('BASE_URL', P.baseUrl)).replace(/\/+$/, ''),
+  // Path part of the configured URL that was dropped (e.g. a UI link like /a/...).
+  ignoredPath: P.baseUrlVar ? ignoredPath(env(P.baseUrlVar, '')) : '',
+  // none | bearer | apikey | token | basic
+  authType: P.lockAuth ? P.authType : env('AUTH_TYPE', P.authType || (token ? 'bearer' : 'none')).toLowerCase(),
   token,
   tokenVar: P.tokenVar,
   apiKeyHeader: env('API_KEY_HEADER', 'x-api-key'),
   requestTimeout: env('REQUEST_TIMEOUT', '10s'),
   // Writes are OFF unless explicitly enabled. Only enable against a target where
   // the write endpoint is sandboxed / idempotent (the local mock is).
-  enableWrites: bool('ENABLE_WRITES', false),
+  enableWrites: P.readOnly ? false : bool('ENABLE_WRITES', false),
   // On HTTP 429, pause this VU for Retry-After seconds (capped) before going on.
   // This is respecting the limit, never bypassing it.
   respectRetryAfter: bool('RESPECT_RETRY_AFTER', true),
@@ -153,10 +174,37 @@ export const ABORT = {
   stressErrorRate: num('STRESS_ABORT_ERROR_RATE', 0.2),
 };
 
+// Freshdesk: a real SaaS account, so its own, stricter safety settings.
+//   FRESHDESK_ABORT_ON_429=true   stop the test once the HTTP 429 rate (whole
+//                                 run, or any stage's steady state) reaches
+//                                 FRESHDESK_MAX_429_RATE. false = record only.
+//   FRESHDESK_MAX_VUS             hard VU ceiling; larger profiles are refused.
+export const FRESHDESK = {
+  max429Rate: num('FRESHDESK_MAX_429_RATE', 0.05),
+  abortOn429: bool('FRESHDESK_ABORT_ON_429', true),
+  maxVus: num('FRESHDESK_MAX_VUS', 20),
+};
+if (PROFILE === 'freshdesk') {
+  // 1.01 can never be reached: 429s are still recorded, but do not abort.
+  ABORT.rateLimitRate = FRESHDESK.abortOn429 ? FRESHDESK.max429Rate : 1.01;
+}
+
 // Each profile writes to its own folder so runs never overwrite each other.
 export const RESULTS_DIR = env('RESULTS_DIR', PROFILE === 'retail-mock' ? 'results' : `results/${PROFILE}`);
 
 // ---------------------------------------------------------------------------
+// "https://acme.freshdesk.com/a/tickets" -> "https://acme.freshdesk.com".
+// SaaS APIs live at the domain root; a pasted UI link must not break the URL.
+function apiOrigin(url) {
+  const m = /^(https?:\/\/[^/?#]+)/i.exec(String(url).trim());
+  return m ? m[1].toLowerCase() : '';
+}
+
+function ignoredPath(url) {
+  const rest = String(url).trim().slice(apiOrigin(url).length).replace(/\/+$/, '');
+  return rest;
+}
+
 function parseStages(spec) {
   return spec.split(',').map((s) => {
     const [vus, hold] = s.trim().split(':');

@@ -4,8 +4,9 @@ import { PROFILE, WEIGHTS_OVERRIDE } from '../config.js';
 import { registerEndpoints } from '../utils/api.js';
 import * as retail from './customer-journey.js';
 import * as quickpizza from './quickpizza.js';
+import * as freshdesk from './freshdesk.js';
 
-const SCENARIOS = { 'retail-mock': retail, quickpizza };
+const SCENARIOS = { 'retail-mock': retail, quickpizza, freshdesk };
 
 export const scenario = SCENARIOS[PROFILE];
 registerEndpoints(scenario.ENDPOINTS);

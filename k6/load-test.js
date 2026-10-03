@@ -16,7 +16,7 @@ import { buildLoadTimeline, useTimeline } from './utils/timeline.js';
 import { measurementThresholds, safetyThresholds, slaGateThresholds, mergeThresholds } from './utils/metrics.js';
 import { buildSummary } from './utils/summary.js';
 import { scenario, ENDPOINT_KEYS, WEIGHTS } from './scenarios/index.js';
-import { guardTarget } from './utils/safety.js';
+import { guardTarget, profileSafetyThresholds } from './utils/safety.js';
 
 guardTarget('load-test', Math.max(...LOAD.stages.map((s) => s.vus)));
 
@@ -41,6 +41,7 @@ export const options = {
     measurementThresholds(timeline.windows, ENDPOINT_KEYS),
     safetyThresholds(timeline.windows, { errorRate: ABORT.errorRate, rateLimitRate: ABORT.rateLimitRate }),
     slaGateThresholds(timeline.windows, SLA, SLA_GATE_VUS),
+    profileSafetyThresholds(),
   ),
 };
 

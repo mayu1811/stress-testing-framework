@@ -8,6 +8,7 @@
 import http from 'k6/http';
 import exec from 'k6/execution';
 import { sleep } from 'k6';
+import encoding from 'k6/encoding';
 import { TARGET } from '../config.js';
 import { currentStageTags } from './timeline.js';
 import { recordResponse, header } from './metrics.js';
@@ -20,10 +21,19 @@ export function registerEndpoints(map) {
   ENDPOINT_NAMES = map;
 }
 
+// Optional per-scenario hook, called for every response BEFORE any 429
+// back-off sleep (a test aborted mid-sleep would otherwise never see it).
+let responseObserver = null;
+export function observeResponses(fn) {
+  responseObserver = fn;
+}
+
 export function authHeaders() {
   if (!TARGET.token || TARGET.authType === 'none') return {};
   if (TARGET.authType === 'apikey') return { [TARGET.apiKeyHeader]: TARGET.token };
   if (TARGET.authType === 'token') return { Authorization: `Token ${TARGET.token}` };
+  // Freshdesk style: the API key is the user name, "X" the (ignored) password.
+  if (TARGET.authType === 'basic') return { Authorization: `Basic ${encoding.b64encode(`${TARGET.token}:X`)}` };
   return { Authorization: `Bearer ${TARGET.token}` };
 }
 
@@ -49,6 +59,7 @@ function params(endpoint, extraHeaders) {
 
 function afterResponse(res, tags) {
   recordResponse(res, tags);
+  if (responseObserver) responseObserver(res);
   if (res.status === 429 && TARGET.respectRetryAfter) {
     const retryAfter = Number(header(res, 'Retry-After')) || 1;
     sleep(Math.min(retryAfter, TARGET.maxBackoffSec));

@@ -5,7 +5,8 @@ how it fails, and whether it recovers. Browser-level journeys are validated sepa
 
 **At a glance:** smoke → incremental load (10 → 500 VUs) → knee refinement (300 → 500) → stress (to 1000) →
 recovery, against a safe local mock API · results in [reports/performance-report.md](reports/performance-report.md)
-· run it with [Quick Start](#7-quick-start) · point it at staging with [Running Against Authorised Staging](#8-running-against-authorised-staging).
+· run it with [Quick Start](#7-quick-start) · point it at staging with [Running Against Authorised Staging](#8-running-against-authorised-staging)
+· real SaaS API validation in [Freshdesk: Real API Validation](#11-freshdesk-real-api-validation).
 
 ### Repository map
 
@@ -233,8 +234,9 @@ API, which explicitly permits load testing ([Grafana docs](https://grafana.com/d
 Load stays modest (5 → 50 VUs) because it is shared: `npm run smoke:quickpizza`, `npm run load:quickpizza:quick`,
 `npm run report:quickpizza`. It needs `QUICKPIZZA_TOKEN` (any 16 characters).
 
-There is no HubSpot/Freshdesk profile. No API key was available, and HubSpot is a shared production SaaS limited
-to 100-190 requests per 10 s per private app
+`TARGET_PROFILE=freshdesk` validates the framework against a real authenticated SaaS API at low volume; see
+[Freshdesk: Real API Validation](#11-freshdesk-real-api-validation). There is no HubSpot profile: HubSpot is a shared
+production SaaS limited to 100-190 requests per 10 s per private app
 ([HubSpot usage guidelines](https://developers.hubspot.com/docs/developer-tooling/platform/usage-guidelines)). A
 500-user test would only measure its rate limiter. A low-rate integration test in a developer test account is the
 right use, and it fits as one more scenario file in `k6/scenarios/`.
@@ -272,3 +274,36 @@ generates load; Playwright validates the end-to-end experience.
 6. Soak tests (hours at the highest healthy level) and spike tests (flash-sale surges).
 7. Arrival-rate (open-model) scenarios to validate throughput targets, e.g. "sustain 2,000 req/s".
 8. Repeated runs with variance reporting, and a CI performance gate (`SLA_GATE_VUS`).
+
+## 11. Freshdesk: Real API Validation
+
+The local mock is still the target for the main capacity and stress tests (10 → 500 and 100 → 1000 VUs). Freshdesk
+is used for something different: checking that the same framework works against a **real, authenticated SaaS API**,
+and measuring what it actually sees there: latency, throughput, errors and HTTP 429 rate limiting.
+
+- **Low volume on purpose.** A Freshdesk trial account is a shared production service with a per-account API quota
+  (this account reported 50 requests/minute). The default profile is 1 → 5 → 10 → 20 VUs with 30 s holds and 3-6 s
+  think time. Peaks above `FRESHDESK_MAX_VUS` (default 20) and any stress test are refused before a request is sent.
+- **Read-only.** Only `GET /api/v2/tickets`, `GET /api/v2/contacts` and `GET /api/v2/tickets/:id`. Nothing is
+  created, updated or deleted.
+- **Provider rate limits are respected.** 429s are counted separately from errors. On a 429 the VU waits for
+  `Retry-After`, and once the 429 share reaches `FRESHDESK_MAX_429_RATE` (default 5%) in a stage or across the run, the
+  test stops (`FRESHDESK_ABORT_ON_429=true`). Nothing tries to get around the limit.
+- **Credentials come from `.env` only** (`FRESHDESK_BASE_URL`, `FRESHDESK_API_KEY`). `.env` is git-ignored, the key
+  is never printed, and results and reports only record whether a key was configured. Never commit a real key.
+
+```bash
+# in .env (git-ignored)
+FRESHDESK_BASE_URL=https://your-domain.freshdesk.com
+FRESHDESK_API_KEY=<your Freshdesk API key>
+
+npm run freshdesk:validate   # exactly one authenticated GET: reachability, auth, valid response
+npm run freshdesk:smoke      # 1 VU for 20 s, all three endpoints
+npm run freshdesk            # controlled 1 -> 5 -> 10 -> 20 VU run; stops on 429
+npm run report:freshdesk     # reports/freshdesk-performance-report.md
+```
+
+Results go to `results/freshdesk/` and the report to
+[reports/freshdesk-performance-report.md](reports/freshdesk-performance-report.md). They are kept separate from the
+mock results and are not comparable with them. The report describes what this account returned from this machine. It
+is **not** a statement of how many users or requests per second Freshdesk can handle.
