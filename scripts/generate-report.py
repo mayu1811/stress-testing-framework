@@ -14,12 +14,17 @@ Output:
   reports/<profile>-performance-report.md  (other profiles)
   reports/charts/*.png
 
+--profile freshdesk writes a separate, smaller API-validation report (no
+capacity analysis) from results/freshdesk/latest-validation.json,
+latest-smoke-test.json and latest-load-test.json.
+
 Every number in the report is read from those files. Nothing is invented:
 if a metric was not collected, the report says so.
 
 Usage:
   python scripts/generate-report.py
   python scripts/generate-report.py --profile quickpizza
+  python scripts/generate-report.py --profile freshdesk
   python scripts/generate-report.py --load results/load-test-2026-...json --no-stress --out reports/run-2.md
 """
 import argparse
@@ -1030,10 +1035,267 @@ def build_report(load, stress, smoke, knee, telemetry, out_path, charts_dir, cha
         f.write("\n".join(md).replace("\n\n\n", "\n\n"))
     return out_path, charts, stress_charts
 
+# -------------------------------------------------------------------- freshdesk
+# A real SaaS account tested at LOW volume. Deliberately NOT the capacity report:
+# no zones, no "highest healthy stage", no capacity claims. Only what was measured.
+def raw_values(raw, metric):
+    return ((raw or {}).get("metrics", {}).get(metric) or {}).get("values") or {}
+
+
+def limit_of(raw, prefix):
+    """Smallest `rate<X` abort limit configured on metrics starting with prefix (None if none / disabled)."""
+    limits = [float(e.split("<")[1]) for k, m in (raw or {}).get("metrics", {}).items() if k.startswith(prefix)
+              for e in (m.get("thresholds") or {}) if e.startswith("rate<")]
+    limits = [x for x in limits if x <= 1]
+    return min(limits) if limits else None
+
+
+def build_freshdesk_report(validation, smoke, load, load_raw, out_path):
+    md = []
+    w = md.append
+    v = (validation or {}).get("validation")
+    base = (v or {}).get("baseUrl") or (load or smoke or {}).get("meta", {}).get("target", {}).get("baseUrl", "-")
+    srcs = ["latest-validation.json"] if validation else []
+    srcs += [os.path.basename(d["files"][0]) for d in (smoke, load) if d]
+
+    w("# Freshdesk API Validation Report")
+    w("")
+    w(f"_Generated {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M UTC')} by `scripts/generate-report.py --profile freshdesk` from "
+      + ", ".join(f"`{x}`" for x in srcs) + ". All figures are measured values from those files._")
+    w("")
+    w(table(["", ""], [
+        ["**Target**", f"Freshdesk trial account (`{base}`)"],
+        ["**Test type**", "Controlled authenticated API validation (read-only, low volume)"],
+        ["**Purpose**", "Validate the load-testing framework against a real SaaS API"],
+        ["**Measured**", "Latency, throughput, errors, HTTP 429 / rate-limit behaviour"],
+    ]))
+    w("")
+    w("> **Important: this is NOT a Freshdesk capacity benchmark.** The account is a shared SaaS service with a per-account "
+      "API rate limit, so load was kept deliberately small and the run is designed to stop when Freshdesk starts rate limiting. "
+      "Nothing here says how many users or requests per second Freshdesk can handle. These numbers are **separate from, and "
+      "not comparable with,** the local mock capacity / stress results in [performance-report.md](performance-report.md).")
+    w("")
+
+    planned = (load or {}).get("stages", [])
+    stages = [s for s in planned if s["reached"]]
+    fails = (load or {}).get("thresholdFailures", [])
+    stop_429 = [f for f in fails if f.startswith("rate_limited")]
+    stop_err = [f for f in fails if f.startswith("app_errors")]
+    s429 = [s for s in stages if s["statusCodes"].get("429")]
+    quota = (v or {}).get("rateLimit", {}).get("totalPerMinute")
+    rem = raw_values(load_raw, "freshdesk_ratelimit_remaining")
+    ra = raw_values(load_raw, "freshdesk_retry_after_sec")
+    tot429 = raw_values(load_raw, "rate_limited").get("passes", 0)
+
+    def counts(s):
+        c = s["statusCodes"]
+        return (sum(n for k, n in c.items() if k.startswith("4") and k != "429"), c.get("429", 0),
+                sum(n for k, n in c.items() if k.startswith("5")), round(s["timeoutRate"] * s["totalRequests"]))
+
+    # ------------------------------------------------------------- 1. summary
+    w("## 1. Summary")
+    w("")
+    if v:
+        w(f"- **Authentication / connectivity:** {'validated' if v['ok'] else 'FAILED'}: one authenticated `{v['request']}` returned "
+          f"HTTP {v.get('status', '-')} in {ms(v.get('latencyMs'))} ms"
+          + (f", a valid JSON array of {v['ticketCount']} tickets." if v["ok"] else f". Reason: {v['reason']}"))
+    else:
+        w("- **Authentication / connectivity:** validation run not found (`npm run freshdesk:validate`).")
+    if smoke:
+        sm = smoke["stages"][0]
+        w(f"- **Smoke test:** {'PASS' if not smoke['thresholdFailures'] else 'FAIL'}: {sm['vus']} VU for {smoke['meta']['profile']['duration']}, "
+          f"{sm['totalRequests']} requests across {len(sm['endpoints'])} endpoints ({code_list(sm['statusCodes'])}), "
+          f"checks passed {pct(sm['checksPassRate'], 1)}.")
+    if load:
+        w(f"- **Controlled run:** {len(stages)} of {len(planned)} planned stages reached "
+          f"({' -> '.join(str(s['vus']) for s in planned)} VUs planned; reached {', '.join(str(s['vus']) for s in stages) or 'none'}).")
+        if stop_429:
+            w(f"- **Safety stop:** the run was **stopped by the HTTP 429 safety rule** during the {s429[-1]['vus'] if s429 else '?'}-VU stage "
+              f"(`{stop_429[0]}` crossed). Later stages were not run.")
+        elif stop_err:
+            w(f"- **Safety stop:** stopped by the error-rate rule (`{stop_err[0]}`).")
+        else:
+            w("- **Safety stop:** not triggered; all planned stages completed.")
+        w(f"- **HTTP 429:** {'first seen in steady state at ' + str(s429[0]['vus']) + ' VUs; ' if s429 else 'none in steady-state windows; '}"
+          f"{tot429} x 429 in the whole run. Freshdesk reported a quota of {quota if quota is not None else 'unknown'} requests/minute"
+          + (f"; the lowest remaining quota seen in a response header was {int(rem['min'])}." if rem else "."))
+        e4, _, e5, to = (sum(x) for x in zip(*[counts(s) for s in stages])) if stages else (0, 0, 0, 0)
+        w(f"- **Errors (steady state):** {e4} x 4xx (excluding 429), {e5} x 5xx, {to} timeouts.")
+    w("")
+
+    # ------------------------------------------------------- 2. configuration
+    if load:
+        m = load["meta"]
+        wl = m["workload"]
+        p = m["profile"]
+        stage_lim = limit_of(load_raw, "rate_limited{stage:")
+        run_lim = limit_of(load_raw, "rate_limited")
+        safety = "disabled (FRESHDESK_ABORT_ON_429=false): 429s recorded only"
+        if stage_lim is not None:
+            safety = f"abort when the 429 share reaches {pct(stage_lim, 0)} in any stage's hold" + (
+                f" or over the whole run" if run_lim is not None else "")
+        w("## 2. Test Configuration")
+        w("")
+        w(table(["Setting", "Value"], [
+            ["Base URL", f"`{m['target']['baseUrl']}` (API under `/api/v2`)"],
+            ["Authentication", "HTTP Basic; API key read from the `FRESHDESK_API_KEY` environment variable (value never logged or stored)"],
+            ["Operations", "Read-only: `GET /api/v2/tickets`, `GET /api/v2/contacts`, `GET /api/v2/tickets/:id`. No create / update / delete."],
+            ["Traffic mix", ", ".join(f"{k} {n}%" for k, n in wl["weights"].items())],
+            ["Think time per VU", f"{wl['thinkTimeSec']['min']}-{wl['thinkTimeSec']['max']} s between requests"],
+            ["Stages", " -> ".join(f"{s['vus']} VUs ({s['hold']})" for s in p["stages"])],
+            ["Per stage", f"ramp 0 -> N over `{p['rampUp']}`, hold, ramp down over `{p['rampDown']}`, cool down `{p['cooldown']}`; numbers from the hold only"],
+            ["429 safety stop", safety],
+            ["On HTTP 429", "the VU pauses for `Retry-After` seconds (capped) before continuing: the limit is respected, never bypassed"],
+            ["Request timeout", m["target"]["requestTimeout"]],
+            ["Run window", f"{ts(m['testStartMs'])} to {ts(m['testEndMs'])} ({m['durationSec']} s)"],
+            ["Load generator", "k6 on one machine, over the public internet (latency includes that network path)"],
+        ]))
+        w("")
+
+    # ---------------------------------------------------------- 3. validation
+    w("## 3. Validation (one authenticated request)")
+    w("")
+    if v:
+        rl = v.get("rateLimit") or {}
+        w(table(["Check", "Result"], [
+            ["Request", f"`{v['request']}` (exactly one request)"],
+            ["Domain reachable", "yes" if v.get("status") else "no"],
+            ["Authentication", "accepted" if v.get("status") == 200 else f"rejected / failed (HTTP {v.get('status', '-')})"],
+            ["Response valid", f"yes: JSON array, {v['ticketCount']} tickets" if v["ok"] else "no"],
+            ["Latency", f"{ms(v.get('latencyMs'))} ms"],
+            ["Rate-limit headers", f"total {rl.get('totalPerMinute')}/min, remaining {rl.get('remaining')}, this request used {rl.get('usedByRequest')}"],
+            ["UI path ignored", f"`{v['ignoredPath']}`" if v.get("ignoredPath") else "-"],
+            ["Credential in output", f"no: only `keyConfigured: {str(v.get('keyConfigured')).lower()}` is recorded"],
+        ]))
+    else:
+        w("Not run.")
+    w("")
+
+    # --------------------------------------------------------------- 4. smoke
+    w("## 4. Smoke Test")
+    w("")
+    if smoke:
+        sm = smoke["stages"][0]
+        l = sm["latencyMs"]
+        w(table(["VUs", "Duration", "Requests", "Status codes", "P50", "P95", "P99", "Max", "429", "Checks", "Verdict"], [[
+            sm["vus"], smoke["meta"]["profile"]["duration"], sm["totalRequests"], code_list(sm["statusCodes"]), ms(l["p50"]), ms(l["p95"]),
+            ms(l["p99"]), ms(l["max"]), sm["statusCodes"].get("429", 0), pct(sm["checksPassRate"], 1),
+            "PASS" if not smoke["thresholdFailures"] else "FAIL: " + "; ".join(smoke["thresholdFailures"])]]))
+    else:
+        w("Not run.")
+    w("")
+
+    if load:
+        # ------------------------------------------------------------ 5. results
+        w("## 5. Controlled Run Results")
+        w("")
+        w("Steady-state (hold) samples only; latency in ms; throughput = requests / measured hold seconds.")
+        sizes = [s["totalRequests"] for s in stages]
+        if sizes and max(sizes) < 100:
+            w(f"Sample sizes are small ({min(sizes)}-{max(sizes)} requests per stage), so P95 / P99 are effectively the slowest one or "
+              "two requests of the stage; treat them as indicative.")
+        w("")
+        rows = []
+        for s in planned:
+            if not s["reached"]:
+                rows.append([s["vus"], "not run (test stopped earlier)"] + [""] * 10)
+                continue
+            l = s["latencyMs"]
+            e4, r429, e5, to = counts(s)
+            rows.append([s["vus"], f"{num(s['measuredSec'], 0)} s", s["totalRequests"], s["successful"], e4, r429, e5, to,
+                         ms(l["p50"]), ms(l["p95"]), ms(l["p99"]), f"{num(s['rps'], 2)} req/s ({num(s['rps'] * 60, 0)}/min)"])
+        w(table(["VUs", "Hold", "Requests", "Successful", "4xx (excl. 429)", "429", "5xx", "Timeouts", "P50", "P95", "P99", "Throughput"], rows))
+        w("")
+        hr = raw_values(load_raw, "http_reqs")
+        hd = raw_values(load_raw, "http_req_duration")
+        if hr:
+            other = raw_values(load_raw, "app_errors").get("passes", 0) - raw_values(load_raw, "server_errors").get("passes", 0)
+            w("**Whole run** (all phases including ramps and cool-downs; `Total requests` also counts the preflight request):")
+            w("")
+            w(table(["Total requests", "Successful", "4xx excl. 429 / no response", "429", "5xx", "Timeouts", "P50", "P95", "P99", "Max", "Avg throughput"], [[
+                hr.get("count"), raw_values(load_raw, "request_ok").get("passes", 0), other, tot429,
+                raw_values(load_raw, "server_errors").get("passes", 0), raw_values(load_raw, "timeouts").get("passes", 0),
+                ms(hd.get("med")), ms(hd.get("p(95)")), ms(hd.get("p(99)")), ms(hd.get("max")), f"{num(hr.get('rate'), 2)} req/s"]]))
+            w("")
+
+        w("### Latency by endpoint (P50 / P95 / P99 ms, steady state)")
+        w("")
+        eps = sorted({ep for s in stages for ep in s.get("endpoints", {})})
+        fmt = lambda e: f"{ms(e.get('p50'))} / {ms(e.get('p95'))} / {ms(e.get('p99'))}" if e else "-"
+        w(table(["Endpoint"] + [f"{s['vus']} VUs" for s in stages],
+                [[f"`{ep}`"] + [fmt(s["endpoints"].get(ep)) for s in stages] for ep in eps]))
+        w("")
+
+        # ------------------------------------------------------ 6. rate limit
+        w("## 6. Rate Limiting (HTTP 429)")
+        w("")
+        think = (wl["thinkTimeSec"]["min"] + wl["thinkTimeSec"]["max"]) / 2
+        w(table(["VUs", "Approx. offered rate (VUs x 60 / mean think time)", "Measured rate (hold)", "429 responses", "429 share"],
+                [[s["vus"], f"~{num(s['vus'] * 60 / think, 0)}/min", f"{num(s['rps'] * 60, 0)}/min", s["statusCodes"].get("429", 0),
+                  pct(s["rateLimitRate"])] for s in stages]))
+        w("")
+        w(f"- Freshdesk's `X-Ratelimit-Total` header reported **{quota if quota is not None else 'no'} requests per minute** for this account "
+          "(the quota is per account, per minute, across all API clients).")
+        if rem:
+            w(f"- `X-Ratelimit-Remaining` over the run: max {int(rem['max'])}, median {num(rem['med'], 0)}, **min {int(rem['min'])}**"
+              + (" (the quota was fully used at least once)." if rem["min"] == 0 else "."))
+        if ra:
+            w(f"- `Retry-After` on 429 responses: min {num(ra['min'], 0)} s, max {num(ra['max'], 0)} s. The VU that received it paused "
+              "for `Retry-After` seconds, capped at `MAX_BACKOFF_SEC` (default 10 s), instead of retrying immediately.")
+        elif tot429:
+            w("- `Retry-After` values were not recorded for this run.")
+        if stop_429:
+            w("- The configured 429 safety rule fired and k6 stopped the test (exit code 99). This is the intended behaviour: the run "
+              "backs off when the provider says so and makes no attempt to get around the limit.")
+        w("- 429s are counted separately from application errors: they show the account's API quota, not a Freshdesk failure.")
+        w("")
+
+        # ------------------------------------------------- 7. error handling
+        w("## 7. Error Handling Observed")
+        w("")
+        w("Status codes per stage (steady state):")
+        w("")
+        w(status_table(stages))
+        w("")
+        w(f"- Response checks (status, JSON shape, ticket ID match) passed: {pct(load['meta']['totals']['checksPassRate'], 1)} of checks run.")
+        if tot429 and raw_values(load_raw, "checks").get("fails", 0) == 0:
+            w("- Checks run after the 429 back-off pause. The VUs that received a 429 were still paused when the safety stop ended the "
+              "test, so those responses have no check result; they are counted in the 429 column above.")
+        w("- Error classes are tracked separately: 4xx (excluding 429), 429, 5xx, timeouts / no response.")
+        w("")
+
+    # ---------------------------------------------------- 8. interpretation
+    w("## 8. What This Shows / Does Not Show")
+    w("")
+    w("**Shows (measured):**")
+    w("- The framework authenticates to a real SaaS API with a key taken only from the environment; the key never appears in output.")
+    w("- Real request latency from this machine to the Freshdesk API, per endpoint, at the low concurrency levels listed above.")
+    w("- Whether and where this account's API quota returned HTTP 429, and that the framework detects it, honours `Retry-After` and stops safely.")
+    w("")
+    w("**Does not show:**")
+    w("- Freshdesk's capacity. Any limit seen here is this trial account's API quota, not the service's throughput limit.")
+    w("- Behaviour on paid plans (higher quotas), from other regions, or with write traffic (none was sent).")
+    w("- Anything about the local mock results: those are a separate experiment on a different system.")
+    w("")
+    w("## 9. Reproduce")
+    w("")
+    w("```bash")
+    w("# .env (git-ignored): FRESHDESK_BASE_URL=https://<your-domain>.freshdesk.com and FRESHDESK_API_KEY=<your key>")
+    w("npm run freshdesk:validate   # one authenticated GET")
+    w("npm run freshdesk:smoke      # 1 VU, 20 s")
+    w("npm run freshdesk            # controlled 1 -> 5 -> 10 -> 20 VU run, stops on 429")
+    w("npm run report:freshdesk     # this report")
+    w("```")
+    w("")
+    os.makedirs(os.path.dirname(out_path), exist_ok=True)
+    with open(out_path, "w", encoding="utf-8") as f:
+        f.write("\n".join(md).replace("\n\n\n", "\n\n"))
+    return out_path
+
 
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("--profile", default="retail-mock", help="target profile whose results to report (retail-mock | quickpizza)")
+    ap.add_argument("--profile", default="retail-mock", help="target profile whose results to report (retail-mock | quickpizza | freshdesk)")
     ap.add_argument("--load")
     ap.add_argument("--stress")
     ap.add_argument("--smoke")
@@ -1044,6 +1306,19 @@ def main():
     ap.add_argument("--out")
     ap.add_argument("--charts-dir", default=os.path.join(ROOT, "reports", "charts"))
     args = ap.parse_args()
+
+    if args.profile == "freshdesk":
+        rdir = os.path.join(ROOT, "results", "freshdesk")
+        load = load_json(args.load or os.path.join(rdir, "latest-load-test.json"))
+        validation = load_json(os.path.join(rdir, "latest-validation.json"))
+        smoke = load_json(args.smoke or os.path.join(rdir, "latest-smoke-test.json"))
+        if not (load or validation or smoke):
+            sys.exit(f"No Freshdesk results in {rdir}. Run npm run freshdesk:validate first.")
+        load_raw = load_json(os.path.join(ROOT, load["files"][2])) if load else None
+        out = build_freshdesk_report(validation, smoke, load, load_raw,
+                                     os.path.abspath(args.out or os.path.join(ROOT, "reports", "freshdesk-performance-report.md")))
+        print(f"Report written: {out}")
+        return
 
     mock = args.profile == "retail-mock"
     rdir = os.path.join(ROOT, "results") if mock else os.path.join(ROOT, "results", args.profile)
